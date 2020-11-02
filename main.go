@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
 type Card struct {
@@ -24,7 +27,7 @@ func (d *PublicDeck) makeDeck() {
 				n = i
 			} else if i == 11 {
 				m = "J"
-				n - 10
+				n = 10
 			} else if i == 12 {
 				m = "Q"
 				n = 10
@@ -35,13 +38,17 @@ func (d *PublicDeck) makeDeck() {
 				m = strconv.Itoa(i)
 				n = i
 			}
-			d.deck = append(d.deck, Card{suit})
+			d.deck = append(d.deck, Card{suite: s, number: n, mark: m})
 		}
 	}
 }
 
 func (d *PublicDeck) shuffleDeck() {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(d.deck), func(i, j int) { d.deck[i], d.deck[j] = d.deck[j], d.deck[i] })
 }
 
 func main() {
+	d := PublicDeck{}
+	d.makeDeck()
 }
